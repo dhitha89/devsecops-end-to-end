@@ -1,113 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DevOps Zero To Hero</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DevSecOps End-to-End Project</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
+        :root {
+            --bg1: #0b1020;
+            --bg2: #11182d;
+            --card: rgba(255, 255, 255, 0.07);
+            --border: rgba(255, 255, 255, 0.12);
+            --text: #e5e7eb;
+            --muted: #9ca3af;
+            --accent1: #22d3ee;
+            --accent2: #8b5cf6;
+            --success: #34d399;
+            --warn: #fbbf24;
+            --danger: #fb7185;
+        }
 
-body{
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-color:#e0e0e0
-}
+        body {
+            min-height: 100vh;
+            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--text);
+            background:
+                    radial-gradient(circle at top left, rgba(34, 211, 238, 0.15), transparent 30%),
+                    radial-gradient(circle at top right, rgba(139, 92, 246, 0.18), transparent 30%),
+                    linear-gradient(135deg, var(--bg1), var(--bg2));
+            padding: 40px 20px;
+        }
 
-.container{text-align:center;padding:2rem;max-width:640px}
+        .container {
+            max-width: 1150px;
+            margin: 0 auto;
+        }
 
-h1{
-font-size:2.5rem;
-background:linear-gradient(90deg,#00d2ff,#7b2ff7);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-margin-bottom:.5rem
-}
+        .hero {
+            text-align: center;
+            padding: 40px 20px 30px;
+        }
 
-.badge{
-display:inline-block;
-margin:1rem 0;
-padding:.4rem 1.2rem;
-border:1px solid #7b2ff7;
-border-radius:999px;
-font-size:.9rem;
-color:#c4b5fd
-}
+        .badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 999px;
+            border: 1px solid rgba(139, 92, 246, 0.35);
+            background: rgba(139, 92, 246, 0.1);
+            color: #d8b4fe;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
 
-.pipeline{
-margin-bottom:1.5rem;
-font-size:.9rem;
-color:#9ca3af
-}
+        h1 {
+            font-size: clamp(2.2rem, 5vw, 4rem);
+            line-height: 1.1;
+            margin-bottom: 14px;
+            background: linear-gradient(90deg, var(--accent1), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-.cards{
-display:flex;
-gap:1rem;
-justify-content:center;
-flex-wrap:wrap
-}
+        .subtitle {
+            max-width: 820px;
+            margin: 0 auto;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--muted);
+        }
 
-.card{
-background:rgba(255,255,255,.06);
-border:1px solid rgba(255,255,255,.1);
-border-radius:12px;
-padding:1.4rem;
-min-width:150px
-}
+        .pipeline {
+            margin: 28px auto 0;
+            display: inline-flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            color: #d1d5db;
+            font-size: 0.95rem;
+        }
 
-.card span{
-display:block;
-font-size:.7rem;
-color:#9ca3af;
-margin-bottom:.4rem;
-letter-spacing:.1em
-}
+        .pipeline span {
+            color: var(--accent1);
+            font-weight: 600;
+        }
 
-.card strong{
-font-size:1.2rem;
-color:#f9fafb
-}
-</style>
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 22px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+        }
+
+        .card h2 {
+            font-size: 1.1rem;
+            margin-bottom: 14px;
+            color: #f9fafb;
+        }
+
+        .card p {
+            color: var(--muted);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .stack-list,
+        .scan-list,
+        .flow-list {
+            list-style: none;
+            display: grid;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .stack-list li,
+        .scan-list li,
+        .flow-list li {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 12px 14px;
+            color: #dbe4ee;
+            line-height: 1.5;
+        }
+
+        .label {
+            display: inline-block;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent1);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .highlight {
+            margin-top: 22px;
+            padding: 18px 20px;
+            border-left: 4px solid var(--accent2);
+            background: rgba(139, 92, 246, 0.08);
+            border-radius: 14px;
+            color: #ddd6fe;
+            line-height: 1.7;
+        }
+
+        .scan-pill-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .pill {
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            border: 1px solid transparent;
+        }
+
+        .pill.success {
+            background: rgba(52, 211, 153, 0.12);
+            color: #86efac;
+            border-color: rgba(52, 211, 153, 0.25);
+        }
+
+        .pill.warn {
+            background: rgba(251, 191, 36, 0.12);
+            color: #fde68a;
+            border-color: rgba(251, 191, 36, 0.25);
+        }
+
+        .pill.danger {
+            background: rgba(251, 113, 133, 0.12);
+            color: #fda4af;
+            border-color: rgba(251, 113, 133, 0.25);
+        }
+
+        footer {
+            text-align: center;
+            color: var(--muted);
+            margin-top: 38px;
+            font-size: 0.92rem;
+            padding-bottom: 10px;
+        }
+
+        code {
+            color: #c4b5fd;
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        }
+    </style>
 </head>
-
 <body>
-
 <div class="container">
+    <section class="hero">
+        <div class="badge">DevSecOps • End-to-End CI/CD Project</div>
+        <h1>Secure Application Delivery Pipeline</h1>
+        <p class="subtitle">
+            This project demonstrates a complete <strong>DevSecOps workflow</strong> — from code commit to
+            automated testing, security scanning, Docker image creation, and deployment.
+            Security is integrated directly into the pipeline so issues are detected early, not after release.
+        </p>
 
-<h1>DevOps Zero To Hero [DevSecOps Live]</h1>
-<div class="badge">Josh Batch 10 (USA Edition BOOOM)</div>
+        <div class="pipeline">
+            <span>Code</span> → <span>Build</span> → <span>Lint</span> → <span>Test</span> → <span>Security Scan</span> → <span>Package</span> → <span>Deploy</span>
+        </div>
+    </section>
 
-<div class="pipeline">
-Built • Tested • Linted • Deployed via GitHub Actions
+    <section class="grid">
+        <div class="card">
+            <div class="label">Project Overview</div>
+            <h2>What this project shows</h2>
+            <p>
+                An end-to-end DevSecOps pipeline where every code change is automatically validated,
+                scanned for vulnerabilities, containerized, and deployed through CI/CD.
+            </p>
+            <div class="highlight">
+                The goal is to deliver software <strong>faster</strong>, <strong>safer</strong>, and
+                <strong>with fewer manual errors</strong>.
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="label">Technology Stack</div>
+            <h2>Core tools used</h2>
+            <ul class="stack-list">
+                <li><strong>Source Control:</strong> GitHub</li>
+                <li><strong>CI/CD:</strong> GitHub Actions</li>
+                <li><strong>Containerization:</strong> Docker</li>
+                <li><strong>Deployment Target:</strong> Staging / Cloud / Container Platform</li>
+                <li><strong>Security:</strong> SAST, dependency scan, secrets scan, container image scan</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="label">Pipeline Flow</div>
+            <h2>How the workflow runs</h2>
+            <ul class="flow-list">
+                <li><strong>1. Push Code:</strong> Developer pushes code to the repository</li>
+                <li><strong>2. Quality Checks:</strong> Linting and tests validate the application</li>
+                <li><strong>3. Security Checks:</strong> Scanners inspect code, dependencies, secrets, and image</li>
+                <li><strong>4. Build:</strong> Application is packaged into a Docker image</li>
+                <li><strong>5. Deploy:</strong> The verified build is deployed to the target environment</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="label">Security Scans</div>
+            <h2>Shift-left security in CI/CD</h2>
+            <ul class="scan-list">
+                <li><strong>SAST:</strong> Scans source code for insecure patterns and coding weaknesses</li>
+                <li><strong>Dependency Scan:</strong> Detects known CVEs in third-party libraries/packages</li>
+                <li><strong>Secrets Scan:</strong> Prevents API keys, passwords, and tokens from being committed</li>
+                <li><strong>Container Scan:</strong> Checks Docker image layers for OS and package vulnerabilities</li>
+            </ul>
+
+            <div class="scan-pill-wrap">
+                <span class="pill success">Code Quality</span>
+                <span class="pill warn">Dependency Risk</span>
+                <span class="pill danger">Secrets Exposure</span>
+                <span class="pill success">Image Security</span>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        Built as a demonstration of a modern <strong>DevSecOps end-to-end delivery pipeline</strong>
+        with automated quality gates and integrated security checks.
+    </footer>
 </div>
-
-<div class="cards">
-<div class="card">
-<span>Framework</span>
-<strong>Flask 3.1</strong>
-</div>
-
-<div class="card">
-<span>Runtime</span>
-<strong>Python 3.14</strong>
-</div>
-
-<div class="card">
-<span>Deploy</span>
-<strong>AWS ECS</strong>
-</div>
-
-<div class="card">
-<span>CI/CD</span>
-<strong>GitHub Actions</strong>
-</div>
-</div>
-
-</div>
-
 </body>
 </html>
